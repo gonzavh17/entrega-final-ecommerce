@@ -1,0 +1,18 @@
+{"level":"error","message":"Error al generar ticket: ValidationError: purchaser: Path `purchaser` is required.","timestamp":"2023-12-29T01:18:10.285Z"}
+{"level":"error","message":"Error al generar ticket: ValidationError: purchaser: Path `purchaser` is required.","timestamp":"2023-12-29T01:18:21.639Z"}
+{"level":"error","message":"Error al generar ticket: ReferenceError: randomUUID is not defined","timestamp":"2023-12-29T01:23:38.857Z"}
+{"level":"error","message":"Error al generar ticket: ReferenceError: randomUUID is not defined","timestamp":"2023-12-29T01:24:56.609Z"}
+{"level":"error","message":"Error al generar ticket: ReferenceError: sendTicket is not defined","timestamp":"2023-12-29T01:25:19.153Z"}
+{"level":"error","message":"Error al generar ticket: TypeError: Cannot read properties of undefined (reading 'amount')","timestamp":"2023-12-29T01:45:13.797Z"}
+{"level":"error","message":"Error al generar ticket: TypeError: Cannot read properties of undefined (reading 'amount')","timestamp":"2023-12-29T01:46:27.683Z"}
+{"level":"error","message":"Error al generar ticket: TypeError: Cannot read properties of undefined (reading 'amount')","timestamp":"2023-12-29T01:47:33.486Z"}
+{"level":"error","message":"Error al generar ticket: TypeError: Cannot read properties of undefined (reading 'amount')","timestamp":"2023-12-29T01:48:05.023Z"}
+{"level":"error","message":"Error al generar ticket: TypeError: Cannot read properties of undefined (reading 'amount')","timestamp":"2023-12-29T01:49:21.596Z"}
+{"level":"error","message":"Error al generar ticket: TypeError: Cannot read properties of undefined (reading 'amount')","timestamp":"2023-12-29T01:49:49.901Z"}
+{"level":"error","message":"Error in POST /api/session/register: \n    One or more properties were incomplete or not valid.\n    List of required properties:\n    * first_name: needs to be a String, received undefined\n    * last_name: needs to be a String, received undefined\n    * email: needs to be a String, received roberto@gonzalez.com\n    ","timestamp":"2024-01-03T22:34:30.043Z"}
+{"level":"error","message":"Error in POST /api/session/register: \n    One or more properties were incomplete or not valid.\n    List of required properties:\n    * first_name: needs to be a String, received undefined\n    * last_name: needs to be a String, received undefined\n    * email: needs to be a String, received roberto@gonzalez.com\n    ","timestamp":"2024-01-03T22:37:13.810Z"}
+{"level":"error","message":"Error al crear usuario: ReferenceError: UserModel is not defined","timestamp":"2024-01-04T19:21:12.420Z"}
+{"code":11000,"index":0,"keyPattern":{"email":1},"keyValue":{"email":"gonzalo@gonzalez"},"level":"error","timestamp":"2024-01-05T01:44:23.860Z"}
+{"level":"error","message":"Error in POST /api/session/register: undefined","timestamp":"2024-01-05T01:44:23.862Z"}
+{"code":11000,"index":0,"keyPattern":{"email":1},"keyValue":{"email":"gonzalo@gonzalez"},"level":"error","timestamp":"2024-01-05T01:45:44.336Z"}
+{"level":"error","message":"Error in POST /api/session/register: undefined","timestamp":"2024-01-05T01:45:44.337Z"}
