@@ -10,10 +10,11 @@ cartRouter.get("/:cid", cartsController.getCart);
 cartRouter.post('/purchase/:cid', passportError('jwt'), authorization(['user']), cartsController.purchaseCart);
 cartRouter.post("/", cartsController.postCart);
 cartRouter.post("/:cid/products/:pid", cartsController.postProductIntoCart);
+cartRouter.post("/:cid", cartsController.updateCart);
 cartRouter.put("/:cid", cartsController.putProductsToCart);
 cartRouter.put("/:cid/products/:pid", cartsController.putQuantity);
 cartRouter.delete("/:cid/delete", cartsController.deleteCart);
-cartRouter.delete("/:cid/products/:pid", cartsController.deleteProductFromCart);
+cartRouter.post("/:cid/products/:pid/deleteProduct", cartsController.deleteProductFromCart);
 cartRouter.delete("/:cid/clear", cartsController.clearCart);
 
 export default cartRouter;

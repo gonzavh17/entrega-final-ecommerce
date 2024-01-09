@@ -21,15 +21,15 @@ export const CartProvider = ({ children }) => {
 
   const addProduct = (updateCart) => {
     if (updateCart && updateCart.cart && updateCart.cart.products) {
-      setCart(updateCart.cart);
+        setCart(updateCart.cart);
     } else if (updateCart && updateCart.products) {
-      setCart(updateCart);
+        setCart(updateCart);
     } else if (updateCart) {
-      setCart({ products: updateCart, totalQuantity: 0, totalPrice: 0 });
+        setCart({ products: [updateCart], totalQuantity: 0, totalPrice: 0 });
     } else {
-      setCart(initialCartState);
+        setCart(initialCartState);
     }
-  };
+};
 
   const deleteProduct = async (product_id) => {
     if (user && user.cart && product_id) {
@@ -39,7 +39,7 @@ export const CartProvider = ({ children }) => {
         setCart((prevCart) => {
           const updatedCart = { ...prevCart };
           updatedCart.products = prevCart.products.filter(
-            (item) => item.id_prod._id !== product_id
+            (product) => product.id_prod._id !== product_id
           );
 
           return updatedCart;
@@ -53,39 +53,31 @@ export const CartProvider = ({ children }) => {
   };
 
   const clearCart = async () => {
-    if (user && user.cart) {
+    if (user && user.cart && cart._id) {
       try {
-        const res = await clearCartRequest(user.cart.id);
+        // Actualizamos el estado del carrito después de limpiarlo
+        await clearCartRequest(cart._id);
         setCart(initialCartState);
       } catch (error) {
-        console.log(error);
+        console.error("Error al limpiar el carrito:", error);
       }
     } else {
+      console.log("Cart id",cart._id)
+      console.log("User cart", user.cart)
       console.log("ID de usuario o carrito no encontrado");
     }
   };
-
+  
   const isInCart = (productId) => {
-    return cart.products.some((item) => item.id_prod._id === productId);
+    return cart.products.some((product) => product.id_prod._id === productId);
   };
 
   const totalQuantity = cart && cart.products ? cart.products.reduce(
-    (total, item) => total + item.quantity,
+    (total, product) => total + product.quantity,
     0
   ) : 0;
 
-  const totalPrice = cart && cart.products ? cart.products.reduce(
-    (total, item) => {
-      if (item.id_prod && typeof item.id_prod === "object") {
-        return total + item.id_prod.price * item.quantity;
-      } else {
-        console.error("id_prod no es un objeto:", item);
-        return total;
-      }
-    },
-    0
-  ) : 0;
-
+  
   return (
     <CartContext.Provider
       value={{
@@ -96,7 +88,6 @@ export const CartProvider = ({ children }) => {
         clearCart,
         isInCart,
         totalQuantity,
-        totalPrice,
       }}
     >
       {children}

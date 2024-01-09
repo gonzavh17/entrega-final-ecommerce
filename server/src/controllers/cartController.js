@@ -114,6 +114,7 @@ const purchaseCart = async (req, res) => {
 
 const postProductIntoCart = async (req, res) => {
   const { cid, pid } = req.params;
+  const { quantity } = req.body;
 
   try {
     const searchCart = await cartModel.findById(cid);
@@ -127,9 +128,9 @@ const postProductIntoCart = async (req, res) => {
     );
 
     if (existingProduct) {
-      existingProduct.quantity += 1;
+      existingProduct.quantity += quantity;
     } else {
-      searchCart.products.push({ id_prod: pid, quantity: 1 });
+      searchCart.products.push({ id_prod: pid, quantity: quantity });
     }
 
     const productInDatabase = await productModel.findById(pid);
@@ -156,6 +157,30 @@ const postProductIntoCart = async (req, res) => {
     });
   } catch (error) {
     res.status(400).send({ error: `Error al añadir producto: ${error.message}` });
+  }
+};
+
+const updateCart = async (req, res) => {
+  try {
+      if (req.user.role === 'admin') {
+          return res.status(403).json({ message: 'Los administradores no pueden actualizar productos al carrito.' });
+      }
+      const cartId = req.params.cid;
+      const updatedCartData = req.body;
+
+      const updatedCart = await Cart.findByIdAndUpdate(
+          cartId,
+          { $set: updatedCartData },
+          { new: true }
+      );
+
+      if (!updatedCart) {
+          return res.status(404).json({ error: 'Carrito no encontrado' });
+      }
+
+      res.json(updatedCart);
+  } catch (error) {
+      res.status(500).json({ error: error.message });
   }
 };
 
@@ -294,7 +319,8 @@ const cartsController = {
   putQuantity,
   deleteCart,
   deleteProductFromCart,
-  clearCart
+  clearCart,
+  updateCart
 };
 
 export default cartsController;

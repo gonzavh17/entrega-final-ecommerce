@@ -24,28 +24,11 @@ routerSession.post("/register", (req, res, next) => {
   })(req, res, next);
 });
 
-routerSession.post("/login", (req, res, next) => {
-  passport.authenticate("login", (err, user, info) => {
-    if (err) {
-      return next(err);
-    }
-
-    if (!user) {
-      // Aquí puedes acceder al mensaje de error específico desde el objeto info
-      const errorMessage = info.message || "Credenciales incorrectas";
-      return res.status(401).json({ success: false, message: errorMessage });
-    }
-
-    req.logIn(user, (err) => {
-      if (err) {
-        return next(err);
-      }
-
-      // Resto del código para manejar el inicio de sesión exitoso
-      res.status(200).json({ success: true, payload: user });
-    });
-  })(req, res, next);
-});
+routerSession.post(
+  "/login",
+  passport.authenticate("login"),
+  sessionController.login
+);
 routerSession.get(
   "/current",
   passportError("jwt"),

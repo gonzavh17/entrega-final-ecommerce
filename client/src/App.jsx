@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import Login from "./components/Login";
 import HomePage from "./components/HomePage";
 import Register from "./components/Register";
@@ -10,6 +10,8 @@ import NavBar from "./components/NavBar";
 import Cart from "./components/Cart";
 import './assets/App.css'
 import { CartProvider } from "./context/CartContext";
+import { getProducts } from "./api/auth";
+import OrderConfirmation from './components/OrderConfirmation'
 
 function App() {
 
@@ -26,6 +28,7 @@ function App() {
             <Route path="/products"></Route>
             <Route path="/cart" element={<Cart/>}></Route>
             <Route path="/mainDashboard" element={<MainDashboard />} />
+            <Route path="/orderConfirmation" element={<OrderConfirmation />} />
             <Route path="/product/:productId" element={<ProductDetail />} />
           </Routes>
         </BrowserRouter>

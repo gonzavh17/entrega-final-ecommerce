@@ -27,13 +27,9 @@ function Register() {
     <div>
       <p className="register-title">Register</p>
 
-{/*       {
-        registerErrors.map((error, i) => 
-          (<div>
-            {error}
-          </div>)
-        )
-      } */}
+      {registerErrors && (
+            <p style={{ color: 'red' }}>{registerErrors}</p>
+          )}
 
       <form onSubmit={handleRegister}>
         <input

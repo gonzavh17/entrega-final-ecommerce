@@ -21,29 +21,45 @@ export const UserProvider = ({ children }) => {
 
   const signup = async (user) => {
     try {
-      console.log(user);
       const res = await registerRequest(user);
       console.log(res.data);
       setUser(res.data);
       setIsAuthenticated(true);
     } catch (error) {
-      console.log(error.response);
-      setErrors(error.response.data);
+      if (error.response && error.response.status === 401) {
+        setErrors("Email ya existente")
+        console.log("Email existente");
+      } else {
+        setErrors("Error registrarse")
+        console.log("Error al iniciar sesión:", error);
+      }
     }
   };
 
   const signin = async (user) => {
     try {
       const response = await loginRequest(user);
-      console.log(response);
-      const userData = response.data.payload; // Ajusta esto según la estructura de tu respuesta de login
+      const userData = response.data.payload;
       setUser(userData);
       setIsAuthenticated(true);
       setLoggedIn(true);
     } catch (error) {
-      console.log("Error while login", error);
+      if (error.response && error.response.status === 401) {
+        setErrors("Usuario o contraseña incorrectos. Por favor, inténtalo de nuevo.")
+        console.log("Usuario o contraseña incorrectos. Por favor, inténtalo de nuevo.");
+      } else {
+        setErrors("Error al iniciar sesión:")
+        console.log("Error al iniciar sesión:", error);
+      }
+      
     }
+    
   };
+
+  setTimeout(() => {
+    setErrors('');
+  }, 6000);
+
   return (
     <userContext.Provider
       value={{

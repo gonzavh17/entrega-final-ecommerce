@@ -17,7 +17,7 @@ import logger from "../utils/loggers.js";
 const initializePassport = () => {
 
   const cookieExtractor = (req) => {
-    console.log(req.cookies)
+    console.log("cookie",req.cookies)
     const token = req.cookies ? req.cookies.jwtCookie : {}
     console.log(token)
     return token
@@ -107,7 +107,7 @@ const initializePassport = () => {
               first_name: profile._json.name,
               last_name: " ",
               email: profile._json.email,
-              age: 18, //Edad por defecto,
+              age: 18,
               password: hashPassword,
             });
             done(null, userCreated);

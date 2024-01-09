@@ -6,7 +6,7 @@ const getTickets = async (req, res) => {
   try {
     const findTicket = await ticketModel.find();
 
-    res.status(200).send({ response: findTicket });
+    res.send(findTicket)
   } catch (error) {
     res.status(500).send({ message: `Error al consultar ticket ${error}` });
   }
@@ -22,7 +22,7 @@ const createTicket = async (req, res) => {
     };
     await ticketModel.create(ticket);
     const generatedTicket = await ticketModel.findOne({ code: ticket.code });
-    return generatedTicket;
+    res.send(generatedTicket)
   } catch (error) {
     logger.error(`Error al generar ticket: ${error}`);
     res.status(500).send({ message: `Error al crear ticket ${error}` });

@@ -10,6 +10,7 @@ const ProductDetail = () => {
   const [product, setProduct] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [quantityAdded, setQuantityAdded] = useState(0);
+  const [errorMessage, setErrorMessage] = useState(null);
 
   const { cart, addProduct } = useContext(CartContext);
 
@@ -21,7 +22,7 @@ const ProductDetail = () => {
         const res = await getProductsById(productId);
         const data = res.data;
         setProduct(data.message);
-        console.log("Respuesta completa del servidor:", res);
+/*         console.log("Respuesta completa del servidor:", res); */
       } catch (error) {
         console.error("Error fetching product:", error);
       } finally {
@@ -35,6 +36,10 @@ const ProductDetail = () => {
   const handleOnAdd = async (quantity) => {
     setQuantityAdded(quantity);
 
+    if(user === null || cart === null) {
+      setErrorMessage('Debes iniciar sesión o crear una cuenta');
+      return;
+    }
 
     if (product) {
       const productToAdd = {
@@ -48,7 +53,8 @@ const ProductDetail = () => {
       console.log("Producto:", productToAdd._id);
       console.log("ID del carrito", user.cart);
       try {
-        const res = await postProductIntoCart(user.cart, product._id);
+        const res = await postProductIntoCart(user.cart, product._id, quantity);
+
         const updateCart = res.data;
 
         console.log("Carrito actualizado:", updateCart);
@@ -78,11 +84,16 @@ const ProductDetail = () => {
               <p>Stock: {product.stock}</p>
             </>
           )}
+
+          {errorMessage && (
+            <p style={{ color: 'red' }}>{errorMessage}</p>
+          )}
+
+          <ItemCount stock={product ? product.stock : 0} initial={1} onAddToCart={handleOnAdd} />
         </>
       )}
-      <ItemCount stock={product ? product.stock : 0} initial={1} onAddToCart={handleOnAdd} />
     </div>
   );
-};
+}
 
 export default ProductDetail;

@@ -6,7 +6,7 @@ import { useAuth } from "../context/UserContext";
 export default function Login() {
   const [isLoading, setIsLoading] = useState(false);
   const {register, handleSubmit, formState: { errors },} = useForm();
-  const { signin, loggedIn } = useAuth()
+  const { signin, loggedIn, errors: loginError } = useAuth()
 
   const handleLogin = async (data) => {
     signin(data)
@@ -15,6 +15,8 @@ export default function Login() {
   if (loggedIn) {
     return <Navigate to="/mainDashboard" replace />;
   }
+
+  
   return (
     <div>
       <form action="submit" onSubmit={handleSubmit(handleLogin)}>
@@ -31,6 +33,9 @@ export default function Login() {
         />
         {errors.password && <p>password is required</p>}
 
+        {loginError && (
+            <p style={{ color: 'red' }}>{loginError}</p>
+          )}
         <button type="submit">Login</button>
       </form>
 
