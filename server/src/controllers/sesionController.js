@@ -8,8 +8,18 @@ import userModel from "../models/users.model.js";
 const register = async (req, res) => {
   try {
     if (!req.user) {
-      res.status(401).send({ message: [`Error al registrar usuario`] });
+      return res.status(401).send({ message: [`Error al registrar usuario`] });
     }
+    
+    const validRoles = ["user", "admin", "premium"];
+    const { role } = req.body;
+
+    if (!role || !validRoles.includes(role)) {
+      return res.status(400).send({ message: ["Rol no válido"] });
+    }
+
+    req.user.role = role;
+
     req.session.user = {
       first_name: req.user.first_name,
       last_name: req.user.last_name,
@@ -17,12 +27,14 @@ const register = async (req, res) => {
       email: req.user.email,
       role: req.user.role,
     };
+
     const token = generateToken(req.user);
     res.cookie("jwtCookie", token, {
       maxAge: 43200000,
     });
+
     res.status(200).send({ payload: req.user });
-    logger.info("Loggin Succesfully");
+    logger.info("Registrado exitosamente");
   } catch (error) {
     logger.error(`Error al crear usuario: ${error}`);
     res.status(500).send({ mensaje: `Error al registrar usuario ${error}` });

@@ -31,31 +31,32 @@ export const CartProvider = ({ children }) => {
     }
 };
 
-  const deleteProduct = async (product_id) => {
-    if (user && user.cart && product_id) {
-      try {
-        const res = await removeProduct(product_id, user.cart.id);
+const deleteProduct = async (product_id) => {
+  if (user && user.cart && product_id) {
+    try {
+      console.log("Before removeProduct call");
+      const res = await removeProduct(product_id, user.cart.id);
+      console.log("After removeProduct call", res);
 
-        setCart((prevCart) => {
-          const updatedCart = { ...prevCart };
-          updatedCart.products = prevCart.products.filter(
-            (product) => product.id_prod._id !== product_id
-          );
+      setCart((prevCart) => {
+        const updatedCart = { ...prevCart };
+        updatedCart.products = prevCart.products.filter(
+          (product) => product.id_prod._id !== product_id
+        );
 
-          return updatedCart;
-        });
-      } catch (error) {
-        console.error("Error:", error);
-      }
-    } else {
-      console.error("Error: Usuario o ID del producto es undefined");
+        return updatedCart;
+      });
+    } catch (error) {
+      console.error("Error:", error);
     }
-  };
+  } else {
+    console.error("Error: Usuario o ID del producto es undefined");
+  }
+};
 
   const clearCart = async () => {
     if (user && user.cart && cart._id) {
       try {
-        // Actualizamos el estado del carrito después de limpiarlo
         await clearCartRequest(cart._id);
         setCart(initialCartState);
       } catch (error) {

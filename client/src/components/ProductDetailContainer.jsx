@@ -51,7 +51,7 @@ const ProductDetail = () => {
       };
 
       console.log("Producto:", productToAdd._id);
-      console.log("ID del carrito", user.cart);
+      console.log("ID del carrito", user);
       try {
         const res = await postProductIntoCart(user.cart, product._id, quantity);
 

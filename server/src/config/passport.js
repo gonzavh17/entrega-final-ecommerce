@@ -35,36 +35,37 @@ const initializePassport = () => {
     }
   }))
 
-  passport.use(
-    "register",
-    new LocalStrategy(
-      { passReqToCallback: true, usernameField: "email" },
-      async (req, username, password, done) => {
-        const { first_name, last_name, email, age } = req.body;
-  
-        try {
-          const user = await userModel.findOne({ email: email });
-          if (user) {
-            return done({ status: 401, message: 'Este correo electrónico ya está registrado.' });
-          }
-  
-          const passwordHash = createHash(password);
-          const userCreated = await userModel.create({
-            first_name: first_name,
-            last_name: last_name,
-            email: email,
-            age: age,
-            password: passwordHash,
-          });
-  
-          return done(null, userCreated);
-        } catch (error) {
-          logger.error(error);
-          return done(error);
+passport.use(
+  "register",
+  new LocalStrategy(
+    { passReqToCallback: true, usernameField: "email" },
+    async (req, username, password, done) => {
+      const { first_name, last_name, email, age, role } = req.body;
+
+      try {
+        const user = await userModel.findOne({ email: email });
+        if (user) {
+          return done({ status: 401, message: 'Este correo electrónico ya está registrado.' });
         }
+
+        const passwordHash = createHash(password);
+        const userCreated = await userModel.create({
+          first_name: first_name,
+          last_name: last_name,
+          email: email,
+          age: age,
+          role: role,
+          password: passwordHash,
+        });
+
+        return done(null, userCreated);
+      } catch (error) {
+        logger.error(error);
+        return done(error);
       }
-    )
-  );
+    }
+  )
+);
 
   passport.use(
     "login",

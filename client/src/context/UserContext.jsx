@@ -23,8 +23,9 @@ export const UserProvider = ({ children }) => {
     try {
       const res = await registerRequest(user);
       console.log(res.data);
+      console.log('Register exitoso')
       setUser(res.data);
-      setIsAuthenticated(true);
+
     } catch (error) {
       if (error.response && error.response.status === 401) {
         setErrors("Email ya existente")
@@ -41,7 +42,6 @@ export const UserProvider = ({ children }) => {
       const response = await loginRequest(user);
       const userData = response.data.payload;
       setUser(userData);
-      setIsAuthenticated(true);
       setLoggedIn(true);
     } catch (error) {
       if (error.response && error.response.status === 401) {
